@@ -9,11 +9,11 @@ public class Ejercicio05 {
     public static void main(String[] args) {
         // TODO: Declara una variable long con el valor 3000000000
         // ¿Qué sufijo necesitas añadir al número?
-
+        long grande = 3000000000L;
         // TODO: Intenta descomentar esta línea. ¿Qué error da?
         // int grande = 3000000000;
 
         // TODO: Explica por qué falla con int:
-        //
+        // Error de compilación: integer number too large
     }
 }

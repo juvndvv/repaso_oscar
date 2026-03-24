@@ -10,9 +10,11 @@ public class Ejercicio03 {
         // TODO: Declara las constantes con final
         // final float IVA = ...
         // final float PRECIO_BASE = ...
-
+        final float IVA = 0.21f;
+        final float PRECIO_BASE = 100.0f;
         // TODO: Calcula el precio final (PRECIO_BASE + PRECIO_BASE * IVA)
-
+        float precioFinal = PRECIO_BASE + PRECIO_BASE * IVA;
         // TODO: Imprime el precio final
+        System.out.println("Precio final con IVA: " + precioFinal);
     }
 }

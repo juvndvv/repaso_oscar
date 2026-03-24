@@ -15,9 +15,12 @@ public class Ejercicio08 {
         // System.out.println(b);
 
         // TODO: Explica qué error da y por qué:
-        //
+        // Error de compilación: variable a (y b) might not have been initialized
+        // Porque las variables locales NO tienen valor por defecto en Java
 
         // TODO: ¿Cómo lo solucionarías?
-        //
+        // Inicializándolas antes de usarlas, por ejemplo:
+        // int a = 0;
+        // int b = 0;
     }
 }

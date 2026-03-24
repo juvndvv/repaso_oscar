@@ -18,5 +18,27 @@ public class Ejercicio02 {
         100 * consumo / km
 
          */
+        Scanner sc = new Scanner(System.in);
+
+        // Pedir datos
+        System.out.println("Introduce los km recorridos: ");
+        double km = sc.nextDouble();
+
+        System.out.println("Introduce los litros consumidos: ");
+        double litros = sc.nextDouble();
+
+        // Cálculo consumo cada 100 km
+        double consumo = (litros * 100) / km;
+
+        // Mostrar resultado
+        System.out.println("Consumo: " + consumo + " L/100km");
+
+        // Condición
+        if (consumo > 8) {
+            System.out.println("El coche gasta demasiado");
+        }
+
+        sc.close();
+
     }
 }

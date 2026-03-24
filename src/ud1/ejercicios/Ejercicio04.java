@@ -16,10 +16,10 @@ public class Ejercicio04 {
         // e) boolean activo = 1;
 
         // TODO: Escribe aquí cuáles son incorrectas y por qué:
-        // a) →
-        // b) →
-        // c) →
-        // d) →
-        // e) →
+        // a) → Incorrecta, Estás intentando meter un número decimal (double) en un int
+        // b) → Correcta
+        // c) → Incorrecta, para ser float le falta "f" asi seria un double
+        // d) → Incorrecta, "A" es un String, no un char.
+        // e) → Incorrecta, en Java, boolean NO es numérico
     }
 }

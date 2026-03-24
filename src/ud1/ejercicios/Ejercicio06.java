@@ -7,8 +7,8 @@ package ud1.ejercicios;
 public class Ejercicio06 {
     public static void main(String[] args) {
         // ANTES de ejecutar, escribe tu predicción:
-        // x = ?
-        // y = ?
+        // x = 5
+        // y = 10
 
         int x = 5;
         int y = x;

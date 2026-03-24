@@ -12,5 +12,20 @@ import java.util.Scanner;
  */
 public class Ejercicio06 {
     public static void main(String[] args) {
+        // 1. DATOS
+        // Numero aleatorio de programa
+        // Numero introducido por usuario
+        // Intentos
+
+        // 2. Que tengo que hacer con ellos
+        // Pedir numero hasta que acierte
+        // Decir si el numero secreto es mayor o menos despues de cada intento
+        // COntar intentos
+
+        // 3. Resultado final
+        // Mostrar cuantos intentos he necesitado para acertar
+
+        Scanner sc = new Scanner(System.in);
+
     }
 }
