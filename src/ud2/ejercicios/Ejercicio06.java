@@ -12,20 +12,44 @@ import java.util.Scanner;
  */
 public class Ejercicio06 {
     public static void main(String[] args) {
-        // 1. DATOS
-        // Numero aleatorio de programa
-        // Numero introducido por usuario
-        // Intentos
+        // ¿Qué datos tengo?
+        // - Un número secreto aleatorio (1 al 10)
+        // - Numero introducido por el usuario
+        // - Contador de intentos
 
-        // 2. Que tengo que hacer con ellos
-        // Pedir numero hasta que acierte
-        // Decir si el numero secreto es mayor o menos despues de cada intento
-        // COntar intentos
+        // ¿Qué tengo que hacer con ellos?
+        // - Comparar el número del usuario con el secreto
+        // - Decir si es mayor o menor
+        // - Repetir hasta que acierte
 
-        // 3. Resultado final
-        // Mostrar cuantos intentos he necesitado para acertar
+        // Resultado final:
+        // - Mostrar cuántos intentos ha necesitado
 
         Scanner sc = new Scanner(System.in);
+        int secreto = (int)(Math.random() * 10) + 1;
+        int numero = 0;
+        int contador = 0;
+
+        do {
+            System.out.println("Introduce un numero del 1 al 10: ");
+            numero = sc.nextInt();
+
+            if (numero <= 0 || numero > 10) {
+                System.out.println("Numero invalido");
+            } else {
+                contador++;
+
+                if (numero < secreto){
+                    System.out.println("El numero es mayor");
+                } else if (numero > secreto){
+                    System.out.println("El numero es menor");
+                } else {
+                    System.out.println("Correcto!");
+                }
+            }
+        } while (numero != secreto);
+
+        System.out.println("Has necesitado: " + contador + " intentos");
 
     }
 }

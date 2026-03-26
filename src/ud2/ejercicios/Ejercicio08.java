@@ -13,5 +13,33 @@ import java.util.Scanner;
  */
 public class Ejercicio08 {
     public static void main(String[] args) {
+        // DATOS
+        // Usuario introduce numero de dias
+
+        // Que tengo que hacer con ellos
+        // Calcular cuantos son laborables
+        // Separar entre dias extra y semanas completas
+
+        // Resultado final
+        // Mostrar dias laborables
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Introduce numero de dias: ");
+        int dias = sc.nextInt();
+
+        if (dias < 0){
+            System.out.println("Valor no valido");
+        } else {
+            int semanas = dias / 7;
+            int diasExtra = dias % 7;
+
+            int laborables = semanas * 5;
+
+            if (diasExtra <= 5) {
+                laborables += diasExtra;
+            } else {
+                laborables += 5;
+            }
+            System.out.println("Dias laborables: " + laborables);
+        }
     }
 }
