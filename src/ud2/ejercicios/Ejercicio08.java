@@ -40,6 +40,8 @@ public class Ejercicio08 {
                 laborables += 5;
             }
             System.out.println("Dias laborables: " + laborables);
+            System.out.println("Dias Extra: " + diasExtra);
+
         }
     }
 }

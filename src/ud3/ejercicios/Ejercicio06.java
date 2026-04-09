@@ -12,9 +12,15 @@ package ud3.ejercicios;
 public class Ejercicio06 {
     public static void main(String[] args) {
         int[] numeros = {33, 7, 91, 12, 58, 3, 44};
-
-
-        // Si el elemento actual es menor que min, actualiza min y posMin
-
+        int min = numeros[0];
+        int posicion = 0;
+        for (int i=0 ; i < numeros.length ; i++){
+            if (numeros[i] < min){
+                min = numeros[i];
+                posicion = i;
+            }
+        }
+        System.out.println("El minimo es: " + min);
+        System.out.println("La posicion es: " + posicion);
     }
 }

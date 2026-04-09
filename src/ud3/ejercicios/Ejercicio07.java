@@ -14,9 +14,19 @@ package ud3.ejercicios;
  */
 public class Ejercicio07 {
     public static void main(String[] args) {
-        int[] numeros = {12, 7, 3, 8, 15, 22, 9, 4, 11, 6};
+        int[] numeros = {12, 7, 3, 8, 15, 22, 9, 4, 11, 6, 100};
+        int pares = 0;
+        int impares = 0;
 
-
+        for (int i=0 ; i < numeros.length ; i++){
+            if(numeros[i] % 2 == 0){
+                pares++;
+            } else {
+                impares++;
+            }
+        }
+        System.out.println("Pares: " + pares);
+        System.out.println("Impares: " + impares);
 
     }
 }

@@ -13,8 +13,11 @@ package ud3.ejercicios;
 public class Ejercicio04 {
     public static void main(String[] args) {
         double[] notas = {5.5, 8.0, 3.5, 9.0, 7.5};
+        double suma = 0;
+        for (int i=0 ; i < notas.length ; i++){
+            suma = notas[i] + suma;
+        }
+        System.out.println("La media es: " + suma/notas.length);
 
-
-        // Pista: usa System.out.printf("La media es: %.2f%n", media);
     }
 }

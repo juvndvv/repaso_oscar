@@ -39,6 +39,6 @@ public class Ejercicio07 {
             int multa = exceso * 10;
             System.out.println("Multa de " + multa + " euros");
         }
+        sc.close();
     }
 }
-//  int multa = velocidad * 10;
