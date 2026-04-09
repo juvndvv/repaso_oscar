@@ -15,8 +15,10 @@ package ud3.ejercicios;
  */
 public class Ejercicio01 {
     public static void main(String[] args) {
-        // Pista: int[] numeros = {10, 20, 30, 40, 50};
+        int[] numeros = {10, 20, 30, 40, 50};
 
-        // Pista: usa numeros.length para saber el tamano del array
+        for (int i = 0; i < numeros.length; i++) {
+            System.out.println("Posicion " + i + ": " + numeros[i]);
+        }
     }
 }
