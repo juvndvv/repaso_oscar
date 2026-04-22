@@ -1,5 +1,7 @@
 package ud3.ejercicios;
 
+import java.util.Arrays;
+
 /**
  * Ejercicio 12 — Copiar un array en otro
  *
@@ -19,8 +21,14 @@ package ud3.ejercicios;
 public class Ejercicio12 {
     public static void main(String[] args) {
         int[] original = {10, 20, 30, 40, 50};
-
-
-
+        int copia[]= new int[5];
+        for (int i = 0; i < original.length; i++){
+            copia[i] = original[i];
+        }
+        System.out.println("Copia: " + Arrays.toString(copia));
+        System.out.println("Original: " + Arrays.toString(original));
+        original[0] = 5;
+        System.out.println("Copia: " + Arrays.toString(copia));
+        System.out.println("Original: " + Arrays.toString(original));
     }
 }
