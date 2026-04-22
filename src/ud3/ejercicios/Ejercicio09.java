@@ -16,7 +16,5 @@ package ud3.ejercicios;
 public class Ejercicio09 {
     public static void main(String[] args) {
         String[] lenguajes = {"Java", "Python", "JavaScript", "C++", "Go"};
-
-        // Pista: for (String lenguaje : lenguajes) { ... }
     }
 }

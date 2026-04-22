@@ -20,8 +20,25 @@ public class Ejercicio08 {
         int[] numeros = {10, 25, 33, 47, 58, 62, 79};
         Scanner sc = new Scanner(System.in);
 
+        System.out.print("Que numero buscas? ");
+        int num = sc.nextInt();
 
-        // Usa una variable boolean "encontrado" y una variable "posicion"
+        // boolean encontrado = false;
+        int posicion = -1;
+
+        for (int i = 0; i < numeros.length; i++) {
+            if (numeros[i] == num) {
+                // encontrado = true;
+                posicion = i;
+                break;
+            }
+        }
+
+        // if (encontrado) {
+           // System.out.println("El número " + num + " está en la posición " + posicion);
+        // } else {
+        //    System.out.println("El número " + num + " no está en el array");
+        // }
 
 
         sc.close();
