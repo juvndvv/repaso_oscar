@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Recorridos de matrices · Java</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,500&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root{
+          --bg:#F4EEDF;
+          --bg-tint:#ECE3CE;
+          --surface:#FBF7EC;
+          --ink:#1B2430;
+          --ink-soft:#4A5263;
+          --ink-faint:#8A8F9C;
+          --rule:#DDD2B8;
+          --accent:#B23A1A;
+          --visited:#E5D2A8;
+          --visited-ink:#5A3A0F;
+          --code-bg:#1B2430;
+          --code-fg:#E8DEC6;
+          --code-kw:#E8B25C;
+          --code-cm:#8A8F7C;
+        }
+        *{box-sizing:border-box;margin:0;padding:0;}
+        html{scroll-behavior:smooth;}
+        body{
+          background:var(--bg);
+          color:var(--ink);
+          font-family:"IBM Plex Sans",sans-serif;
+          -webkit-font-smoothing:antialiased;
+          background-image:
+            radial-gradient(ellipse at top left, rgba(255,255,255,0.55), transparent 60%),
+            radial-gradient(ellipse at bottom right, rgba(178,58,26,0.05), transparent 60%);
+          min-height:100vh;
+        }
+        .wrap{max-width:1100px;margin:0 auto;padding:56px 32px 80px;}
+
+        /* HEADER */
+        .eyebrow{
+          font-family:"IBM Plex Mono",monospace;
+          font-size:11px;letter-spacing:0.18em;
+          text-transform:uppercase;color:var(--ink-faint);
+          margin-bottom:18px;
+        }
+        .eyebrow::before{
+          content:"";display:inline-block;width:24px;height:1px;
+          background:var(--ink-faint);vertical-align:middle;margin-right:12px;
+        }
+        h1{
+          font-family:"Fraunces",serif;
+          font-weight:400;
+          font-size:clamp(40px,6vw,72px);
+          line-height:1.02;
+          letter-spacing:-0.02em;
+          margin-bottom:20px;
+          font-variation-settings:"opsz" 144;
+        }
+        h1 em{
+          font-style:italic;font-weight:500;
+          font-variation-settings:"opsz" 144;
+        }
+        .lede{
+          font-family:"Fraunces",serif;
+          font-size:19px;line-height:1.55;
+          color:var(--ink-soft);
+          max-width:640px;
+          font-weight:400;
+        }
+
+        /* DIVIDERS */
+        .divider{
+          display:flex;align-items:center;gap:16px;
+          margin:56px 0 28px;
+        }
+        .divider::before,.divider::after{
+          content:"";flex:1;height:1px;background:var(--rule);
+        }
+        .divider span{
+          font-family:"IBM Plex Mono",monospace;
+          font-size:11px;letter-spacing:0.2em;text-transform:uppercase;
+          color:var(--ink-faint);
+        }
+
+        /* PATTERN SELECTOR */
+        .toolbar{
+          display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px;
+        }
+        .pat{
+          font-family:"IBM Plex Sans",sans-serif;
+          font-size:14px;font-weight:500;
+          padding:10px 16px;
+          background:transparent;
+          border:1px solid var(--rule);
+          border-radius:2px;
+          color:var(--ink-soft);
+          cursor:pointer;
+          transition:all 0.18s ease;
+        }
+        .pat:hover{border-color:var(--ink);color:var(--ink);}
+        .pat.active{
+          background:var(--ink);border-color:var(--ink);color:var(--bg);
+        }
+
+        /* STAGE */
+        .stage{
+          background:var(--surface);
+          border:1px solid var(--rule);
+          padding:36px;
+          border-radius:2px;
+          display:grid;
+          grid-template-columns:auto 1fr;
+          gap:48px;
+          align-items:start;
+        }
+        @media (max-width:780px){
+          .stage{grid-template-columns:1fr;gap:32px;padding:24px;}
+        }
+
+        .section-label{
+          font-family:"IBM Plex Mono",monospace;
+          font-size:11px;letter-spacing:0.16em;
+          text-transform:uppercase;color:var(--ink-faint);
+          margin-bottom:16px;
+          display:flex;justify-content:space-between;align-items:center;
+        }
+        #grid{
+          display:grid;
+          grid-template-columns:repeat(5,56px);
+          gap:6px;
+        }
+        .cell{
+          aspect-ratio:1;
+          display:flex;align-items:center;justify-content:center;
+          background:var(--bg-tint);
+          border:1px solid transparent;
+          font-family:"IBM Plex Mono",monospace;
+          font-size:16px;font-weight:500;
+          color:var(--ink);
+          border-radius:2px;
+          transition:background 0.28s, color 0.28s, transform 0.28s, box-shadow 0.28s;
+        }
+        .cell.visited{background:var(--visited);color:var(--visited-ink);}
+        .cell.current{
+          background:var(--accent);color:var(--surface);
+          transform:scale(1.06);
+          box-shadow:0 4px 16px rgba(178,58,26,0.28);
+        }
+
+        .stats{
+          margin-top:22px;
+          display:flex;flex-wrap:wrap;gap:22px;
+          font-family:"IBM Plex Mono",monospace;
+          font-size:13px;
+        }
+        .stats span{color:var(--ink-faint);}
+        .stats strong{font-weight:500;color:var(--ink);}
+
+        .code-section{min-width:0;}
+        pre#code{
+          background:var(--code-bg);
+          color:var(--code-fg);
+          font-family:"IBM Plex Mono",monospace;
+          font-size:13px;line-height:1.7;
+          padding:24px;
+          border-radius:2px;
+          overflow-x:auto;
+          white-space:pre;
+          margin:0;
+          min-height:240px;
+        }
+        pre#code .kw{color:var(--code-kw);}
+        pre#code .cm{color:var(--code-cm);font-style:italic;}
+
+        /* CONTROLS */
+        .controls{
+          display:flex;align-items:center;gap:10px;
+          margin-top:28px;flex-wrap:wrap;
+        }
+        .btn{
+          font-family:"IBM Plex Sans",sans-serif;
+          font-size:13px;font-weight:500;
+          padding:10px 18px;
+          background:var(--surface);
+          border:1px solid var(--ink);
+          color:var(--ink);
+          border-radius:2px;
+          cursor:pointer;
+          transition:all 0.15s ease;
+        }
+        .btn:hover{background:var(--ink);color:var(--bg);}
+        .btn-primary{background:var(--ink);color:var(--bg);}
+        .btn-primary:hover{background:var(--accent);border-color:var(--accent);}
+        .speed-group{margin-left:auto;display:flex;align-items:center;gap:10px;}
+        .speed-group label{
+          font-family:"IBM Plex Mono",monospace;
+          font-size:11px;letter-spacing:0.16em;text-transform:uppercase;
+          color:var(--ink-faint);
+        }
+        input[type="range"]{
+          -webkit-appearance:none;appearance:none;
+          width:140px;height:2px;background:var(--rule);outline:none;
+        }
+        input[type="range"]::-webkit-slider-thumb{
+          -webkit-appearance:none;appearance:none;
+          width:14px;height:14px;border-radius:50%;
+          background:var(--accent);cursor:pointer;
+        }
+        input[type="range"]::-moz-range-thumb{
+          width:14px;height:14px;border-radius:50%;
+          background:var(--accent);cursor:pointer;border:none;
+        }
+
+        /* EXPLANATION */
+        .explanation{
+          margin-top:36px;
+          padding:28px 32px;
+          border-left:3px solid var(--accent);
+          background:var(--surface);
+        }
+        .explanation h3{
+          font-family:"Fraunces",serif;
+          font-weight:500;font-style:italic;
+          font-size:24px;letter-spacing:-0.01em;
+          margin-bottom:10px;
+        }
+        .explanation p{
+          font-family:"Fraunces",serif;
+          font-size:17px;line-height:1.6;color:var(--ink-soft);
+        }
+        .explanation p + p{margin-top:8px;}
+        .explanation code{
+          font-family:"IBM Plex Mono",monospace;
+          font-size:14px;
+          background:var(--bg-tint);
+          padding:1px 6px;border-radius:2px;
+          color:var(--ink);
+        }
+
+        /* FOOTER */
+        footer{
+          margin-top:64px;
+          padding-top:24px;
+          border-top:1px solid var(--rule);
+          font-family:"IBM Plex Mono",monospace;
+          font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
+          color:var(--ink-faint);
+          display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;
+        }
+    </style>
+</head>
+<body>
+<div class="wrap">
+
+    <header>
+        <div class="eyebrow">Material didáctico · Programación en Java</div>
+        <h1>Recorridos de <em>matrices</em></h1>
+        <p class="lede">Seis maneras distintas de visitar todas las celdas de una matriz bidimensional. Selecciona un patrón, dale al play, y observa cómo cambian los índices i, j en cada paso.</p>
+    </header>
+
+    <div class="divider"><span>Visualizador</span></div>
+
+    <div class="toolbar">
+        <button data-p="rows" class="pat active">Por filas</button>
+        <button data-p="cols" class="pat">Por columnas</button>
+        <button data-p="diag1" class="pat">Diagonal principal</button>
+        <button data-p="diag2" class="pat">Diagonal secundaria</button>
+        <button data-p="spiral" class="pat">Espiral</button>
+        <button data-p="zigzag" class="pat">Zigzag</button>
+    </div>
+
+    <div class="stage">
+        <div>
+            <div class="section-label"><span>Matriz 5 × 5</span></div>
+            <div id="grid" role="grid" aria-label="Matriz de 5 por 5"></div>
+            <div class="stats">
+                <span>paso <strong id="step">0</strong>/<strong id="total">25</strong></span>
+                <span>i = <strong id="iv">·</strong></span>
+                <span>j = <strong id="jv">·</strong></span>
+                <span>m[i][j] = <strong id="vv">·</strong></span>
+            </div>
+        </div>
+
+        <div class="code-section">
+            <div class="section-label"><span>Código Java</span><span id="code-name"></span></div>
+            <pre id="code"></pre>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="btn" id="reset">↺ Reiniciar</button>
+        <button class="btn btn-primary" id="play">▶ Reproducir</button>
+        <button class="btn" id="stepbtn">→ Siguiente paso</button>
+        <div class="speed-group">
+            <label for="speed">Velocidad</label>
+            <input type="range" id="speed" min="80" max="900" step="20" value="380">
+        </div>
+    </div>
+
+    <div class="explanation" aria-live="polite">
+        <h3 id="exp-title">Recorrido por filas</h3>
+        <p id="exp-text"></p>
+    </div>
+
+    <footer>
+        <span>Recorridos de matrices · Java</span>
+        <span>Material para aula</span>
+    </footer>
+
+</div>
+
+<script>
+    (function(){
+      const N = 5;
+      const matrix = Array.from({length:N},(_,i)=>Array.from({length:N},(_,j)=>i*N+j+1));
+
+      const patterns = {
+        rows(){const s=[];for(let i=0;i<N;i++)for(let j=0;j<N;j++)s.push([i,j]);return s;},
+        cols(){const s=[];for(let j=0;j<N;j++)for(let i=0;i<N;i++)s.push([i,j]);return s;},
+        diag1(){const s=[];for(let i=0;i<N;i++)s.push([i,i]);return s;},
+        diag2(){const s=[];for(let i=0;i<N;i++)s.push([i,N-1-i]);return s;},
+        spiral(){
+          const s=[];let t=0,b=N-1,l=0,r=N-1;
+          while(t<=b&&l<=r){
+            for(let j=l;j<=r;j++)s.push([t,j]);t++;
+            for(let i=t;i<=b;i++)s.push([i,r]);r--;
+            if(t<=b){for(let j=r;j>=l;j--)s.push([b,j]);b--;}
+            if(l<=r){for(let i=b;i>=t;i--)s.push([i,l]);l++;}
+          }
+          return s;
+        },
+        zigzag(){
+          const s=[];
+          for(let i=0;i<N;i++){
+            if(i%2===0)for(let j=0;j<N;j++)s.push([i,j]);
+            else for(let j=N-1;j>=0;j--)s.push([i,j]);
+          }
+          return s;
+        }
+      };
+
+      const codes = {
+        rows:`// Recorrido por filas\nfor (int i = 0; i < n; i++) {\n  for (int j = 0; j < n; j++) {\n    System.out.print(m[i][j] + " ");\n  }\n  System.out.println();\n}`,
+        cols:`// Recorrido por columnas\nfor (int j = 0; j < n; j++) {\n  for (int i = 0; i < n; i++) {\n    System.out.print(m[i][j] + " ");\n  }\n  System.out.println();\n}`,
+        diag1:`// Diagonal principal\nfor (int i = 0; i < n; i++) {\n  System.out.print(m[i][i] + " ");\n}`,
+        diag2:`// Diagonal secundaria\nfor (int i = 0; i < n; i++) {\n  System.out.print(m[i][n - 1 - i] + " ");\n}`,
+        spiral:`// Recorrido en espiral\nint top = 0, bot = n - 1;\nint left = 0, right = n - 1;\n\nwhile (top <= bot && left <= right) {\n  for (int j = left; j <= right; j++)\n    print(m[top][j]);\n  top++;\n  for (int i = top; i <= bot; i++)\n    print(m[i][right]);\n  right--;\n  if (top <= bot)\n    for (int j = right; j >= left; j--)\n      print(m[bot][j]);\n  bot--;\n  if (left <= right)\n    for (int i = bot; i >= top; i--)\n      print(m[i][left]);\n  left++;\n}`,
+        zigzag:`// Recorrido en zigzag\nfor (int i = 0; i < n; i++) {\n  if (i % 2 == 0) {\n    for (int j = 0; j < n; j++)\n      print(m[i][j]);\n  } else {\n    for (int j = n - 1; j >= 0; j--)\n      print(m[i][j]);\n  }\n}`
+      };
+
+      const expls = {
+        rows:{
+          title:"Recorrido por filas",
+          text:'El orden natural y más eficiente. El bucle exterior recorre las filas (i) y el interior las columnas (j). Visitamos toda la fila 0, después la fila 1, y así sucesivamente. Es el patrón más rápido porque accede a la memoria de forma contigua.'
+        },
+        cols:{
+          title:"Recorrido por columnas",
+          text:'Cambiamos el orden de los bucles: ahora el exterior es j y el interior es i. Visitamos toda la columna 0, después la columna 1… El resultado es correcto, pero menos eficiente que por filas en matrices grandes.'
+        },
+        diag1:{
+          title:"Diagonal principal",
+          text:'Solo necesitamos un bucle. La diagonal principal son las celdas donde fila e índice de columna coinciden: m[0][0], m[1][1], m[2][2]… Una sola condición: i == j.'
+        },
+        diag2:{
+          title:"Diagonal secundaria",
+          text:'Las celdas donde i + j == n - 1, es decir, m[0][n-1], m[1][n-2]… Va desde la esquina superior derecha hasta la inferior izquierda.'
+        },
+        spiral:{
+          title:"Recorrido en espiral",
+          text:'Visitamos primero todo el borde de la matriz, después el siguiente nivel hacia dentro, y así hasta llegar al centro. Necesitamos cuatro límites (top, bottom, left, right) que se ajustan tras cada lado completado.'
+        },
+        zigzag:{
+          title:"Recorrido en zigzag",
+          text:'También llamado «en bustrofedón». Las filas pares se recorren de izquierda a derecha; las impares, al revés. Aparece en problemas reales como impresoras 3D o trazado de rasterizado.'
+        }
+      };
+
+      function highlight(code){
+        let h = code.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        h = h.replace(/(\/\/[^\n]*)/g,'<span class="cm">$1</span>');
+        const kw = ['for','if','else','while','int','void','return','public','static','print'];
+        const re = new RegExp('\\b('+kw.join('|')+')\\b','g');
+        h = h.replace(re,'<span class="kw">$1</span>');
+        return h;
+      }
+
+      let current='rows', seq=patterns.rows(), step=0, playing=false, timer=null;
+
+      const grid=document.getElementById('grid');
+      const stepEl=document.getElementById('step');
+      const totalEl=document.getElementById('total');
+      const ivEl=document.getElementById('iv');
+      const jvEl=document.getElementById('jv');
+      const vvEl=document.getElementById('vv');
+      const codeEl=document.getElementById('code');
+      const codeName=document.getElementById('code-name');
+      const playBtn=document.getElementById('play');
+      const speedEl=document.getElementById('speed');
+      const expTitle=document.getElementById('exp-title');
+      const expText=document.getElementById('exp-text');
+
+      for(let i=0;i<N;i++){
+        for(let j=0;j<N;j++){
+          const c=document.createElement('div');
+          c.className='cell';
+          c.textContent=matrix[i][j];
+          grid.appendChild(c);
+        }
+      }
+      const cells=grid.querySelectorAll('.cell');
+
+      function render(){
+        cells.forEach(c=>c.classList.remove('visited','current'));
+        for(let s=0;s<step-1;s++){
+          const [i,j]=seq[s];
+          cells[i*N+j].classList.add('visited');
+        }
+        if(step>0&&step<=seq.length){
+          const [i,j]=seq[step-1];
+          cells[i*N+j].classList.add('current');
+          ivEl.textContent=i; jvEl.textContent=j; vvEl.textContent=matrix[i][j];
+        }else{
+          ivEl.textContent='·'; jvEl.textContent='·'; vvEl.textContent='·';
+        }
+        stepEl.textContent=step;
+        totalEl.textContent=seq.length;
+      }
+
+      function setPattern(p){
+        current=p; seq=patterns[p](); step=0;
+        codeEl.innerHTML=highlight(codes[p]);
+        codeName.textContent=expls[p].title.toLowerCase();
+        expTitle.textContent=expls[p].title;
+        expText.textContent=expls[p].text;
+        document.querySelectorAll('.pat').forEach(b=>b.classList.toggle('active',b.dataset.p===p));
+        stop(); render();
+      }
+
+      function tick(){
+        if(step<seq.length){step++;render();}else{stop();}
+      }
+      function play(){
+        if(step>=seq.length)step=0;
+        playing=true; playBtn.textContent='⏸ Pausar';
+        timer=setInterval(tick,parseInt(speedEl.value));
+      }
+      function stop(){
+        playing=false; playBtn.textContent='▶ Reproducir';
+        if(timer){clearInterval(timer);timer=null;}
+      }
+
+      document.querySelectorAll('.pat').forEach(b=>b.addEventListener('click',()=>setPattern(b.dataset.p)));
+      document.getElementById('reset').addEventListener('click',()=>{step=0;stop();render();});
+      playBtn.addEventListener('click',()=>{playing?stop():play();});
+      document.getElementById('stepbtn').addEventListener('click',()=>{stop();tick();});
+      speedEl.addEventListener('input',()=>{if(playing){stop();play();}});
+
+      document.addEventListener('keydown',e=>{
+        if(e.target.tagName==='INPUT')return;
+        if(e.code==='Space'){e.preventDefault();playing?stop():play();}
+        if(e.code==='ArrowRight'){stop();tick();}
+        if(e.code==='KeyR'){step=0;stop();render();}
+      });
+
+      setPattern('rows');
+    })();
+</script>
+</body>
+</html>
