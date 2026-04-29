@@ -25,9 +25,28 @@ public class Ejercicio22 {
             {2, 4, 6},
             {1, 8, 9}
         };
+        int filas = matriz.length;
+        int columnas = matriz[0].length;
+
+        for (int i = 0; i < filas; i++) {
+            int sumaFila = 0;
+
+            for (int j = 0; j < columnas; j++) {
+                sumaFila += matriz[i][j];
+            }
+            System.out.println("Suma fila " + i + ": " + sumaFila);
+        }
+        for (int j = 0; j < columnas; j++) {
+            int sumaColumna = 0;
+
+            for (int i = 0; i < filas; i++) {
+                sumaColumna += matriz[i][j];
+            }
+            System.out.println("Suma columna " + j + ": " + sumaColumna);
+        }
+    }
+}
 
         // Para cada fila, recorre sus columnas sumando los valores
 
         // Para cada columna, recorre las filas sumando los valores
-    }
-}

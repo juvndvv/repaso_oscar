@@ -1,5 +1,7 @@
 package ud3.ejercicios;
 
+import java.util.Arrays;
+
 /**
  * Ejercicio 15 — Separar positivos y negativos
  *
@@ -18,8 +20,33 @@ public class Ejercicio15 {
     public static void main(String[] args) {
         int[] numeros = {-3, 7, -1, 4, -8, 2, 0, -5, 9, 6};
 
+        int contadorPositivos = 0;
+        int contadorNegativos = 0;
 
-        // Pista: necesitaras un indice independiente para cada array (posPos, posNeg)
+        for (int i = 0; i < numeros.length; i++){
+            if (numeros[i] >= 0){
+                contadorPositivos++;
+            } else {
+                contadorNegativos++;
+            }
+        }
+
+        int [] positivos = new int[contadorPositivos];
+        int [] negativos = new int[contadorNegativos];
+
+        int numPos = 0;
+        int numNeg = 0;
+
+        for (int i = 0; i < numeros.length; i++){
+            if (numeros[i] >= 0){
+                positivos[numPos++] = numeros[i];
+            } else {
+                negativos[numNeg++] = numeros[i];
+            }
+        }
+
+        System.out.println("Positivos: " + Arrays.toString(positivos));
+        System.out.println("Negativos: " + Arrays.toString(negativos));
 
     }
 }

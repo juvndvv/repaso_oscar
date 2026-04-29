@@ -1,5 +1,7 @@
 package ud3.ejercicios;
 
+import java.util.Arrays;
+
 /**
  * Ejercicio 16 — Ordenar un array (burbuja)
  *
@@ -21,10 +23,17 @@ public class Ejercicio16 {
     public static void main(String[] args) {
         int[] numeros = {64, 34, 25, 12, 22, 11, 90};
 
+        System.out.println("Original: " + Arrays.toString(numeros));
 
-        // Bucle externo: recorre de 0 a length-1
-        //   Bucle interno: recorre de 0 a length-1-i
-        //     Si numeros[j] > numeros[j+1], intercambialos
-
+        for (int i = 0; i < numeros.length; i++) {
+            for (int j = 0; j < numeros.length - 1 - i; j++) {
+                if (numeros[j] > numeros[j + 1]) {
+                    int temporal = numeros[j];
+                    numeros[j] = numeros[j + 1];
+                    numeros[j + 1] = temporal;
+                }
+            }
+        }
+        System.out.println("Ordenado: " + Arrays.toString(numeros));
     }
 }
