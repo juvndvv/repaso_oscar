@@ -1,5 +1,7 @@
 package ud3.ejercicios;
 
+import java.util.Arrays;
+
 /**
  * Ejercicio 20 — Eliminar duplicados
  *
@@ -29,8 +31,20 @@ public class Ejercicio20 {
                     existe = true;
                     break;
                 }
+            } if (existe == false){
+                unicos[totalUnicos] = numeros[i];
+                totalUnicos++;
             }
         }
+        System.out.println("Original :" + Arrays.toString(numeros));
+        System.out.print("Sin duplicados: [");
+        for (int i = 0; i < totalUnicos; i++){
+            System.out.print(unicos[i]);
+            if (i != totalUnicos -1){
+                System.out.print(", ");
+            }
+        }
+        System.out.println("]");
 
 
         // y un contador "totalUnicos" inicializado a 0

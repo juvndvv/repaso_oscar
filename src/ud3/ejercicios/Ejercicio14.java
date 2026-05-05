@@ -1,5 +1,7 @@
 package ud3.ejercicios;
 
+import java.util.Arrays;
+
 /**
  * Ejercicio 14 — Desplazar elementos a la derecha
  *
@@ -17,8 +19,16 @@ public class Ejercicio14 {
     public static void main(String[] args) {
         int[] numeros = {1, 2, 3, 4, 5};
 
+        System.out.println("Original: " + Arrays.toString(numeros));
 
-        // moviendo cada elemento una posicion a la derecha: numeros[i] = numeros[i-1]
+        int ultimo = numeros[numeros.length - 1];
 
+        for (int i = 0; i < numeros.length; i++){
+            numeros[i + 1] = numeros[i];
+        }
+
+        numeros[0] = ultimo;
+
+        System.out.println("Desplazado: " + Arrays.toString(numeros));
     }
 }
