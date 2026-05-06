@@ -11,6 +11,10 @@ package ud5.ejercicios;
  */
 public class Ejercicio02 {
     public static void main(String[] args) {
-
+        int resultado = sumar(1,1);
+        System.out.println(resultado);
+    }
+    public static int sumar(int a, int b){
+        return a + b;
     }
 }
